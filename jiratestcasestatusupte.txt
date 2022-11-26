@@ -1,0 +1,236 @@
+
+
+public class JiraUpdate
+public static String testRunID:
+
+
+public static String jira User = BaseClass.prop.getProperty ("jira User");
+public static String jira Password = BaseClass.prop.getProperty("jira Password') ;
+
+String jira encode = jira User+": "+jira Password;
+:::::;:;::::::::::::::::::::::::::::::::::;;;;;;;:::::::::::::;;;:
+
+public String get JIRA TestRunID (String testExecutionID , String testCaseID)
+HttpURLConnection
+con=null:
+InputStreamReaderinputStream=null;
+try
+String basicAuth=
+"Basic
+new String (Base64. getEncoder ().encode (jira_encode.getBytes () )) ;
+System.out println (basicAuth):
+String JIRA GET URI = BaseClass.prop.get Property ("JIRA GET URL") :
+String testIssuekey=
+"&testissuekey=“;
+URI obj = new URI (JIRA GET URL+testExecutionID+testIssueKey+ltestCaseID):
+con
+(HttpURtconnection) obj.openconnection();
+con. setRequestMethod ("GET") ;
+con. setRequestProperty ( "Authorization" basicAuth);
+con. setRequest Property ("accept"
+"application/json");
+con. setRequestProperty ("Content-Type",
+"application/json");
+con. setRequestProperty("X-Atlassian-Token"
+"nocheck");
+
+
+int responseCode=
+con.getResponseCode () ;
+Strangresponsemsg=
+con.getResponseMessage);
+System. outpzint1n （"大大**
+System.out.println ( "Response Code
++ responseCode);
+inputStream=new InputStreamReader (con.getInputStream () , "UTF-s");
+
+try (BufferedReader brenew BufferedReader (inputstream))
+StringBuilder response=new StringBuilder)
+String responseline=null;
+
+while ( (responseline=br.readline())!=null)
+
+List‹String› temp = Arrays.aslist(responseline.split("},")):
+testRunID = temp.get (0) ;
+testRunID = testRunID.substring(6, 11);
+response.append (responseline.trim());
+
+System.out.println ("API Response as Below
+System.out.println(*****************************************************);
+for (String var : temp)
+{
+System. out.printin (var)
+}
+
+if (con. getResponseCode () =-200 || con.getResponseCode () =-204 || con.getResponseCode () =-201)
+
+catch (Exception e)
+e.printStackTrace0):
+
+finally
+if (inputStream!=-null)
+try (
+inputStream.close 0) :
+catch (I0Exception e)
+// TODO: handle exception
+if (con!-null)
+con.disconnect ) :
+System.out.println ("testRunID is
+AM +
+testRunID);
+return testRunID;
+
+::::::::;;;;:;;;;;::::::::;;;::;;:;:;
+
+
+public void update JIRA TestCaseExecutionDetails (String status, String comment)
+
+
+Jsonobject test=new Jsonobject () :
+test. addProperty ("assignee",
+"MSSoooo") ;
+test.addProperty ("comment
+comment) :
+test.adaProperty (status,
+status)
+
+
+
+HttpURLConnectioncon=null;
+InputStreamReaderinputStream=null;
+
+try
+String basicAuth=
+"Basic”+
+new String (Base64. getEncoder () . encode (jira_encode.getBytes () )) ;
+
+
+String JIRA PUT URL =  base.getproperty of varibale url put
+
+URL ObJ
+= new URL (JIRA PUT URL+testRunID):
+
+con=
+(HttpURLConnection) obj.openconnection);
+con. setRequestMethod ( "PUT") ;
+
+con.setRegvestpropeztu (nauthorization",
+basicAuth):
+con.SetREgLESEErOpErEy (accept
+"application/json");
+
+con. setRequestProperty ("Authorization", basicAuth):
+con. setRequest Property ("accept",
+"application/json"):
+con. setRequestProperty ("Content-Type"
+"application/json");
+con. setRequestProperty("X-Atlassian-Token",
+"nocheck"):
+
+con.setDo0utput (true) ;
+OutputStream os - con.getOutputStream () ;
+byte[] input-test.toString () .getBytes ("UTE-8") :
+os.write (input, 0, input.length):
+os. flush () :
+os.close ):
+
+int responseCode=
+con. getResponseCode () :
+String responsemsg
+con.getResponseMessage () :
+System. out.println("*x****
+System. out.println ("Response Code ::
++ responseCode)
+
+
+inputStream=new InputStreamReader (con.getInputStream () , "UTF-8") :
+try (BufferedReader br=new BufferedReader (inputStream) y
+StringBuilder response=new StringBuilder);
+String responseline-null;
+
+while ( (zeSponSe1ine=bz.zeadLine Q)!=null)1
+List<string> temp = arrays.aslist (respondline.split(“},”);
+
+
+response. append (responseline.trim)).
+System. out.printin.();
+
+
+for (String var : temp)
+System. out.println(var):
+
+if (con. getResponseCode () -=-200 | | con.getResponseCode () =-204 || con. getResponseCode () =-201)
+System.out-println ("jira Test execution updated successfully for the specified test");
+else
+System. out.println ("some other connection issue")
+System.out.println ("Response Code
+responseCode)
+System.out.println("*A*A******
+XXXXXXXAXXX
+** AM) ;
+catch (Exception e)
+e.printStackTrace.:
+finally
+if (inputStream!=null)
+try
+inputStream. close () :
+catch (I0Exception e)
+TODO: handle exception
+
+finally
+if (inputStream!-null)
+try
+inputStream. close 0) ;
+catch (I0Exception e)
+// TODO: handle exception
+if (con!-null) [
+con.disconnect () :
+
+
+:::::::;:::::::::::::::::::::::::
+
+
+
+Config file
+
+
+65
+66 JIRA Test Execution ID = ATA-3586
+67 JIRA PUT URI = https://jira-in-ok-prod.ok.net/rest/raven/1.0/api/testrun/
+68 JIRA GET URL
+= https://jira-in-ok-prod.ok.net/rest/raven/1.0/api/testrun?testExecIssueKey=
+69 jira User = M551ooo
+70 jira Password = Google@
+
+
+::::;;;:;:;;;:::::::::::::::::
+
+
+Test case before
+
+testCaseID = "ATA-2199";
+jira testExecutionID = BaseClass.prop.getProperty ("JIRA Test Execution ID") :
+
+
+
+Test case after method
+
+System. out.println ("testCaseID is : "+testCaseID);
+System.out.println ("jira testExecutionID is :
+"+jira testExecutionID):
+result
+= Reporter. getCurrentTestResult);
+JiraUpdate JU = new JiraUpdate ( ) ;
+switch (result.getStatus ()) f
+case ITestResult. SUCCESS:
+try{
+System. out.println("-=----Before JIRA Update=====");
+JU.get JIRA TestRunID(jira testExecutionID,
+testCaseID:
+System. out.println("=---=-After JIRA Update----=");
+JU. update JIRA TestCaseExecutionDetails ("PASS", "Ok”) :
+JU.get JIRA TestRunID (jira testExecutionID, testCaseID):
+}
+catch (Exception ex)
+ex. getMessage () :
+break;
